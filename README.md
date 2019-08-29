@@ -2,8 +2,8 @@
 
 The application is built with:
 * .Net Core 2.2
-* Angular 8
 * Entity Framework Core 2.2
+* Angular 8 (with Ng-Bootstrap)
 
 # Instructions
 
