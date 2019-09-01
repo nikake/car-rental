@@ -9,6 +9,7 @@
 /tmp
 /app/**/*.js
 /app/**/*.js.map
+/CarRental.Web/ClientApp/node_modules
 
 # dependencies
 /node_modules
