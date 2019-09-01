@@ -1,0 +1,97 @@
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Bokningsnummer</th>
+      <th scope="col">Hyrdatum</th>
+      <th scope="col">Registreringsnummer</th>
+      <th scope="col">Typ</th>
+      <th scope="col">Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let booking of bookings">
+      <th scope="row">{{ booking.id }}</th>
+      <td>{{ booking.pickUpRegistration.dateTime | date: "yyyy-MM-dd HH:mm"}}</td>
+      <td>{{ booking.car.registrationNumber}}</td>
+      <td>{{ CarType[booking.car.carType] }}</td>
+      <td>{{ Status[booking.car.status] }}</td>
+      <td>
+        <button type="button" class="btn btn-outline-secondary" triggers="click:blur" (click)="setSelectedBooking(booking);open(returnCar, price)">
+          Returnera
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="d-flex justify-content-between p-2">
+  <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize">
+  </ngb-pagination>
+
+  <select class="custom-select" style="width: auto" [(ngModel)]="pageSize">
+    <option [ngValue]="10">10 fordon per sida</option>
+    <option [ngValue]="20">20 fordon per sida</option>
+    <option [ngValue]="30">30 fordon per sida</option>
+  </select>
+</div>
+
+<ng-template #returnCar let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Ange kunduppgifter</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <label for="bookingNumber">Bokningsnummer</label>
+        <div class="input-group">
+          <input id="bookingNumber" class="form-control" name="bookingNumber" [(ngModel)]="selectedBooking.id" disabled>
+        </div>
+        <label for="bookingPickUpDate">Inlämningsdatum</label>
+        <div class="input-group">
+          <input id="date" class="form-control" placeholder="yyyy-mm-dd" name="date" ngbDatepicker #dp="ngbDatepicker" [(ngModel)]="selectedDate" required>
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button"></button>
+          </div>
+        </div>
+        <br />
+        <label for="bookingPickUpDate">Inlämningstid</label>
+        <ngb-timepicker name="time" [(ngModel)]="time" required></ngb-timepicker>
+        <label for="customerIdentityNumber">Kundnummer</label>
+        <div class="input-group">
+          <input id="customerIdentityNumber" class="form-control" name="customerIdentityNumber" [(ngModel)]="selectedBooking.customer.identityNumber" disabled>
+        </div>
+        <label for="distanceMeter">Mätarställning (km)</label>
+        <div class="input-group">
+          <input id="distanceMeter" class="form-control" name="distanceMeter" [(ngModel)]="distanceMeter">
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Bekräfta</button>
+  </div>
+</ng-template>
+
+
+<ng-template #price let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Pris</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <label for="selectedBookingPrice">Pris</label>
+    <div class="input-group">
+      <input id="selectedBookingPrice" class="form-control" name="selectedBookingPrice" [(ngModel)]="selectedBookingPrice" disabled>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Bekräfta</button>
+  </div>
+</ng-template>
+
+

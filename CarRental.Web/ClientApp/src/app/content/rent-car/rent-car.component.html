@@ -1,0 +1,75 @@
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Bilnummer</th>
+      <th scope="col">Registreringsnummer</th>
+      <th scope="col">Typ</th>
+      <th scope="col">Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let car of listCars">
+      <th scope="row">{{ car.id }}</th>
+      <td>{{ car.registrationNumber }}</td>
+      <td>{{ CarType[car.carType] }}</td>
+      <td>{{ Status[car.status] }}</td>
+      <td>
+        <button type="button" class="btn btn-outline-secondary" triggers="click:blur" [disabled]="car.status === 1" (click)="setSelectedCar(car);open(rentCar)">
+          Hyr
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="d-flex justify-content-between p-2">
+  <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize">
+  </ngb-pagination>
+
+  <select class="custom-select" style="width: auto" [(ngModel)]="pageSize">
+    <option [ngValue]="10">10 fordon per sida</option>
+    <option [ngValue]="20">20 fordon per sida</option>
+    <option [ngValue]="30">30 fordon per sida</option>
+  </select>
+</div>
+
+<ng-template #rentCar let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Ange kunduppgifter</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <label for="bookingPickUpDate">Uthyrningsdatum</label>
+        <div class="input-group">
+          <input id="date" class="form-control" placeholder="yyyy-mm-dd" name="date" ngbDatepicker #dp="ngbDatepicker" [(ngModel)]="selectedDate">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button"></button>
+          </div>
+        </div>
+        <label for="customerIdentityNumber">Kundens personnummer</label>
+        <div class="input-group">
+          <input id="customerIdentityNumber" class="form-control" placeholder="yymmdd-xxxx" name="identityNumber" [(ngModel)]="selectedIdentityNumber">
+        </div>
+        <label for="carRegistrationNumber">Bilens registreringsnummer</label>
+        <div class="input-group">
+          <input id="carRegistrationNumber" class="form-control" disabled value="{{selectedCar.registrationNumber}}" name="identityNumber">
+        </div>
+        <label for="carType">Biltyp</label>
+        <div class="input-group">
+          <input id="carType" class="form-control" disabled value="{{CarType[selectedCar.carType]}}" name="identityNumber">
+        </div>
+        <label for="carDistanceMeter">Mätarställning (km)</label>
+        <div class="input-group">
+          <input id="carDistanceMeter" class="form-control" disabled value="{{selectedCar.distanceMeter}}km" name="identityNumber">
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Bekräfta</button>
+  </div>
+</ng-template>

@@ -1,0 +1,17 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<header class="navbar navbar-expand navbar-blue unique-color">
+  <div class="title navbar-brand">
+    Biluthyrning
+  </div>
+  <div class="navbar-nav-scroll">
+    <ul class="navbar-nav flex-row">
+      <li *ngFor="let item of menuItems" class="nav-item">
+        <a href="{{item.href}}" class="nav-link">
+          <span>{{item.name}}</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+  
+</header>
+<router-outlet></router-outlet>
